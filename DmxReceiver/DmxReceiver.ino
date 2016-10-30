@@ -3,7 +3,7 @@
 
 #define INTERRUPT_PIN 5
 #define MIN_TIME_BETWEEN_INTERRUPTS_MS 1
-#define DMX_SLAVE_CHANNELS 10 
+#define DMX_SLAVE_CHANNELS 17 //17 because index zero is ignored
 
 
 // Configure a DMX slave controller
@@ -36,7 +36,8 @@ void loop()
 void sendDmxData()
 {
   Wire.beginTransmission(8); // transmit to device #8
-  for(int i = 0; i < DMX_SLAVE_CHANNELS; ++i)
+  //the dmx library starts ad adress 1. dmx channel 0 is always 0 and is ignored
+  for(int i = 1; i < DMX_SLAVE_CHANNELS; ++i)
   {
     Wire.write(dmx_slave.getChannelValue(i));
   }
