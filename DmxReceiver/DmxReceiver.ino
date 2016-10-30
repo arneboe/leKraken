@@ -6,7 +6,6 @@
 #define DMX_SLAVE_CHANNELS 17 //17 because index zero is ignored
 
 
-// Configure a DMX slave controller
 DMX_Slave dmx_slave (DMX_SLAVE_CHANNELS);
 
 void setup() {          
@@ -17,7 +16,6 @@ void setup() {
   Wire.begin(); // join i2c bus (address optional for master)
 }
 
-// the loop routine runs over and over again forever:
 void loop() 
 {
   static unsigned long currentTime;
