@@ -36,7 +36,7 @@
 
 
 CRGB leds[NUM_LEDS];
-uint8_t dmxData[NUM_DMX_CHANNELS];//index is one based
+uint8_t dmxData[NUM_DMX_CHANNELS];
 volatile uint8_t numDmxReceived = 0; //needs to be volatile because it is modified from interrupt
 EffectManager effectManager(LEDS_PER_TENTACLE, NUM_TENTACLES, leds);
 
