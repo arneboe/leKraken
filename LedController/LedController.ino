@@ -9,25 +9,26 @@
 #define TENTACLE_PIN_1 5
 #define TENTACLE_PIN_2 6
 #define TENTACLE_PIN_3 7
-#define NUM_DMX_CHANNELS 16
+#define NUM_DMX_CHANNELS 17
 
 //DMX channels:
-#define DMX_EFFECT     0
-#define DMX_SPEED      1
-#define DMX_STROBE     2
-#define DMX_BRIGHTNESS 3
-#define DMX_BASE_0_R   4
-#define DMX_BASE_0_G   5
-#define DMX_BASE_0_B   6
-#define DMX_BASE_1_R   7
-#define DMX_BASE_1_G   8
-#define DMX_BASE_1_B   9
-#define DMX_BASE_2_R   10
-#define DMX_BASE_2_G   11
-#define DMX_BASE_2_B   12
-#define DMX_BASE_3_R   13
-#define DMX_BASE_3_G   14
-#define DMX_BASE_3_B   15
+#define DMX_EFFECT       0
+#define DMX_SPEED        1
+#define DMX_STROBE       2
+#define DMX_BRIGHTNESS   3
+#define DMX_BASE_0_R     4
+#define DMX_BASE_0_G     5
+#define DMX_BASE_0_B     6
+#define DMX_BASE_1_R     7
+#define DMX_BASE_1_G     8
+#define DMX_BASE_1_B     9
+#define DMX_BASE_2_R     10
+#define DMX_BASE_2_G     11
+#define DMX_BASE_2_B     12
+#define DMX_BASE_3_R     13
+#define DMX_BASE_3_G     14
+#define DMX_BASE_3_B     15
+#define DMX_EFFECT_COLOR 16
 
 #include <Wire.h>
 #include <FastLED.h>
@@ -74,13 +75,14 @@ void debugDmx()
   Serial.print(" r3: "); Serial.print(dmxData[DMX_BASE_3_R]);
   Serial.print(" g3: "); Serial.print(dmxData[DMX_BASE_3_G]);
   Serial.print(" b3: "); Serial.print(dmxData[DMX_BASE_3_B]);
+  Serial.print(" eff clr: "); Serial.print(dmxData[DMX_EFFECT_COLOR]);
   Serial.println("");
 }
 
 void loop() 
 {
   triggerDmxDataTransfer();
-  effectManager.update(dmxData[DMX_EFFECT], dmxData[DMX_SPEED]);
+  effectManager.update(dmxData[DMX_EFFECT], dmxData[DMX_SPEED], dmxData[DMX_EFFECT_COLOR]);
   setBaseColor();
   //TODO implement global strobe effect
   FastLED.setBrightness(dmxData[DMX_BRIGHTNESS]);

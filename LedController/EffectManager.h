@@ -38,9 +38,9 @@ public:
     loadEffects();
   }
 
-  void update(const uint8_t effectId, const uint8_t speed)
+  void update(const uint8_t effectId, const uint8_t speed, const uint8_t effectColor)
   {
-    currentEffect = (Effect)map(effectId, 0, 255, 0, NUM_EFFECTS - 1);
+    currentEffect = (Effect)map(effectId, 0, 255, 0, NUM_EFFECTS - 1, effectColor);
 
     if(currentEffect != lastEffect)
     {
