@@ -3,7 +3,7 @@
 
 #define INTERRUPT_PIN 4
 #define MIN_TIME_BETWEEN_INTERRUPTS_MS 1
-#define DMX_SLAVE_CHANNELS 18 //17 because index zero is ignored
+#define DMX_SLAVE_CHANNELS 18 //18 because index zero is ignored
 
 
 DMX_Slave dmx_slave (DMX_SLAVE_CHANNELS);

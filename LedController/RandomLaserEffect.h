@@ -1,8 +1,11 @@
+#pragma once
+#include "Wait.h"
 
 struct 
 {
   uint8_t start;  
   uint8_t h;
+  uint32_t timePassed; //in us
 } rle;
 
 void initRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles)
@@ -12,8 +15,10 @@ void initRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles)
 }
 
 void updateRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,
-               uint16_t timeSinceLastCall, uint8_t speed)
+               uint16_t timeSinceLastCall, uint8_t speed, uint8_t color)
 {
+  WAIT(map(speed, 0, 255, 0, 300000), rle.timePassed, timeSinceLastCall);
+  
   //FIXME not yet working
   FastLED.clear();
   const uint16_t numLeds = numPixelsPerTentacle * numTentacles;

@@ -13,8 +13,8 @@ private:
     NUM_EFFECTS
   };
 
-  // parameters: leds, numPixelsPerTentacle, numTentacles, timeSinceLastCall (in micros), speed
-  typedef void (*UpdatePtr)(CRGB*, uint8_t, uint8_t, uint16_t, uint8_t);
+  // parameters: leds, numPixelsPerTentacle, numTentacles, timeSinceLastCall (in micros), speed, 
+  typedef void (*UpdatePtr)(CRGB*, uint8_t, uint8_t, uint16_t, uint8_t, uint8_t);
   //parameters: leds, numPixelsPerTentacle, numTentacles
   typedef void (*InitPtr)(CRGB*, uint8_t, uint8_t);
   
@@ -40,7 +40,7 @@ public:
 
   void update(const uint8_t effectId, const uint8_t speed, const uint8_t effectColor)
   {
-    currentEffect = (Effect)map(effectId, 0, 255, 0, NUM_EFFECTS - 1, effectColor);
+    currentEffect = (Effect)map(effectId, 0, 255, 0, NUM_EFFECTS - 1);
 
     if(currentEffect != lastEffect)
     {
@@ -48,7 +48,7 @@ public:
       initMethods[currentEffect](leds, numPixelsPerTentacle, numTentacles);
     }
     updateMethods[currentEffect](leds, numPixelsPerTentacle, numTentacles,
-                                 getTimeSinceLastCall(), speed);
+                                 getTimeSinceLastCall(), speed, effectColor);
   }
 
   private:

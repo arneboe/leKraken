@@ -82,7 +82,8 @@ void debugDmx()
 void loop() 
 {
   triggerDmxDataTransfer();
-  effectManager.update(dmxData[DMX_EFFECT], dmxData[DMX_SPEED], dmxData[DMX_EFFECT_COLOR]);
+  FastLED.clear();
+  //effectManager.update(dmxData[DMX_EFFECT], dmxData[DMX_SPEED], dmxData[DMX_EFFECT_COLOR]);
   setBaseColor();
   //TODO implement global strobe effect
   FastLED.setBrightness(dmxData[DMX_BRIGHTNESS]);
