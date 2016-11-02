@@ -3,6 +3,7 @@
 #include "RandomLaserEffect.h"
 #include "MeteorEffect.h"
 #include "SingleTentacleEffect.h"
+#include "SweepEffect.h"
 
 class EffectManager
 {
@@ -13,6 +14,7 @@ private:
     TENTACLE_1_ON_EFFECT,
     TENTACLE_2_ON_EFFECT,
     TENTACLE_3_ON_EFFECT,
+    SWEEP_EFFECT,
     METEOR_EFFECT,
     RANDOM_LASER,
     //add effect ids before NUM_EFFECTS
@@ -72,6 +74,10 @@ public:
     updateMethods[TENTACLE_2_ON_EFFECT] = updateSte;
     initMethods[TENTACLE_3_ON_EFFECT] = initSte3;
     updateMethods[TENTACLE_3_ON_EFFECT] = updateSte;
+
+    initMethods[SWEEP_EFFECT] = initSweepEffect;
+    updateMethods[SWEEP_EFFECT] = updateSweepEffect;
+    
 
     initMethods[RANDOM_LASER] = initRle;
     updateMethods[RANDOM_LASER] = updateRle;
