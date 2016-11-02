@@ -10,6 +10,7 @@ struct
 void initMeteor(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles)
 {
   meteor.position = 0;
+  meteor.timePassed = 999999999;
 }
 
 void updateMeteor(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,

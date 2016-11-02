@@ -13,6 +13,7 @@ void initRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles)
 {
   const uint16_t numLeds = numPixelsPerTentacle * numTentacles;
   rle.start = rle.start % numLeds; //clamp to range but do not change if already in range
+  rle.timePassed = 999999999;
 }
 
 void updateRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,
