@@ -8,6 +8,7 @@ struct
   uint32_t timePassed; //in us
 } rle;
 
+
 void initRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles)
 {
   const uint16_t numLeds = numPixelsPerTentacle * numTentacles;
@@ -18,6 +19,7 @@ void updateRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,
                uint16_t timeSinceLastCall, uint8_t speed, uint8_t color)
 {
   WAIT(map(speed, 0, 255, 0, 300000), rle.timePassed, timeSinceLastCall);
+  FastLED.clear();
   
   //FIXME not yet working
   FastLED.clear();
@@ -30,5 +32,4 @@ void updateRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,
     leds[i].setHue(rle.h);
   }
 }
-
 

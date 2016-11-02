@@ -2,12 +2,17 @@
 #include <pixeltypes.h>
 #include "RandomLaserEffect.h"
 #include "MeteorEffect.h"
+#include "SingleTentacleEffect.h"
 
 class EffectManager
 {
 private:
   enum Effect
   {
+    TENTACLE_0_ON_EFFECT,
+    TENTACLE_1_ON_EFFECT,
+    TENTACLE_2_ON_EFFECT,
+    TENTACLE_3_ON_EFFECT,
     METEOR_EFFECT,
     RANDOM_LASER,
     //add effect ids before NUM_EFFECTS
@@ -45,6 +50,8 @@ public:
 
     if(currentEffect != lastEffect)
     {
+      //Serial.print("Effect: ");
+     //Serial.println(currentEffect);
       lastEffect = currentEffect;
       initMethods[currentEffect](leds, numPixelsPerTentacle, numTentacles);
     }
@@ -57,6 +64,15 @@ public:
   /** Initializes the effect pointers */
   void loadEffects()
   {
+    initMethods[TENTACLE_0_ON_EFFECT] = initSte0;
+    updateMethods[TENTACLE_0_ON_EFFECT] = updateSte;
+    initMethods[TENTACLE_1_ON_EFFECT] = initSte1;
+    updateMethods[TENTACLE_1_ON_EFFECT] = updateSte;
+    initMethods[TENTACLE_2_ON_EFFECT] = initSte2;
+    updateMethods[TENTACLE_2_ON_EFFECT] = updateSte;
+    initMethods[TENTACLE_3_ON_EFFECT] = initSte3;
+    updateMethods[TENTACLE_3_ON_EFFECT] = updateSte;
+
     initMethods[RANDOM_LASER] = initRle;
     updateMethods[RANDOM_LASER] = updateRle;
 
