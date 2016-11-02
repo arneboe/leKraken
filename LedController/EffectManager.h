@@ -1,14 +1,15 @@
 #pragma once
 #include <pixeltypes.h>
 #include "RandomLaserEffect.h"
+#include "MeteorEffect.h"
 
 class EffectManager
 {
 private:
   enum Effect
   {
+    METEOR_EFFECT,
     RANDOM_LASER,
-    TEST_EFFECT2,
     //add effect ids before NUM_EFFECTS
     NUM_EFFECTS
   };
@@ -58,6 +59,9 @@ public:
   {
     initMethods[RANDOM_LASER] = initRle;
     updateMethods[RANDOM_LASER] = updateRle;
+
+    initMethods[METEOR_EFFECT] = initMeteor;
+    updateMethods[METEOR_EFFECT] = updateMeteor;   
   }
 
   /** Returns the time since the last call to this method in micro seconds */

@@ -15,7 +15,7 @@ void initMeteor(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles)
 void updateMeteor(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,
                uint16_t timeSinceLastCall, uint8_t speed, uint8_t color)
 {
-  WAIT(map(speed, 0, 255, 0, 300000), meteor.timePassed, timeSinceLastCall);
+  WAIT(map(speed, 0, 255, 0, 600000), meteor.timePassed, timeSinceLastCall);
 
   FastLED.clear();
 
@@ -29,9 +29,7 @@ void updateMeteor(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles
   for (int i = newPosition - tailLength; i < newPosition; ++i)
   {
     for (int offset = 0; offset < numTentacles; ++offset) {
-      leds[i + offset * numPixelsPerTentacle].h(color);
-      leds[i + offset * numPixelsPerTentacle].s(255);
-      leds[i + offset * numPixelsPerTentacle].v((i * 255) / newPosition);
+      leds[i + offset * numPixelsPerTentacle].setHSV (color, 255, (i * 255) / newPosition);
     }
   }
 }

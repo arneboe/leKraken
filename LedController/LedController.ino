@@ -41,20 +41,20 @@ uint8_t dmxData[NUM_DMX_CHANNELS];
 volatile uint8_t numDmxReceived = 0; //needs to be volatile because it is modified from interrupt
 EffectManager effectManager(LEDS_PER_TENTACLE, NUM_TENTACLES, leds);
 
-void setup() 
+void setup()
 {
   pinMode(INTERRUPT_PIN, OUTPUT);
   digitalWrite(INTERRUPT_PIN, LOW);
-  
-  Wire.begin(8);               
-  Wire.onReceive(receiveEvent); 
+
+  Wire.begin(8);
+  Wire.onReceive(receiveEvent);
 
   FastLED.addLeds<LED_TYPE, TENTACLE_PIN_0, LED_COLOR_ORDER>(leds, LEDS_PER_TENTACLE).setCorrection(TypicalLEDStrip);
   FastLED.addLeds<LED_TYPE, TENTACLE_PIN_1, LED_COLOR_ORDER>(&leds[LEDS_PER_TENTACLE], LEDS_PER_TENTACLE).setCorrection(TypicalLEDStrip);
   FastLED.addLeds<LED_TYPE, TENTACLE_PIN_2, LED_COLOR_ORDER>(&leds[2 * LEDS_PER_TENTACLE], LEDS_PER_TENTACLE).setCorrection(TypicalLEDStrip);
   FastLED.addLeds<LED_TYPE, TENTACLE_PIN_3, LED_COLOR_ORDER>(&leds[3 * LEDS_PER_TENTACLE], LEDS_PER_TENTACLE).setCorrection(TypicalLEDStrip);
   FastLED.clear();
-  Serial.begin(9600);   //FIXME remove after debug         
+  Serial.begin(9600);   //FIXME remove after debug
 }
 
 void debugDmx()
@@ -79,26 +79,55 @@ void debugDmx()
   Serial.println("");
 }
 
-void loop() 
+void loop()
 {
   triggerDmxDataTransfer();
+  //debugDmx();
   FastLED.clear();
-  //effectManager.update(dmxData[DMX_EFFECT], dmxData[DMX_SPEED], dmxData[DMX_EFFECT_COLOR]);
+  effectManager.update(dmxData[DMX_EFFECT], dmxData[DMX_SPEED], dmxData[DMX_EFFECT_COLOR]);
   setBaseColor();
-  //TODO implement global strobe effect
-  FastLED.setBrightness(dmxData[DMX_BRIGHTNESS]);
+  strobe(); //will also set brightness
   FastLED.show();
 }
 
+/**If strobe is > 2 strobe is enabled */
+void strobe()
+{
+  static bool off = true;
+  static unsigned long offTime = 0;
+  static unsigned long onTime = 0;
+  const uint8_t strobeSpeed = dmxData[DMX_STROBE];
+  if(strobeSpeed > 2)
+  {
+    const unsigned long currentTime = millis();
+    const uint16_t strobeTime = map(strobeSpeed, 255, 0, 60, 1300);
+    if (off && currentTime - offTime >= strobeTime)
+    {
+      off = false;
+      onTime = currentTime;
+      FastLED.setBrightness(dmxData[DMX_BRIGHTNESS]);
+    }
+    else if (!off && currentTime - onTime >= 4)
+    {
+      off = true;
+      offTime = currentTime;
+      FastLED.setBrightness(0);
+    }
+  }
+  else
+  {
+    FastLED.setBrightness(dmxData[DMX_BRIGHTNESS]);
+  }
+}
 
 void setBaseColor()
 {
   //FIXME use better loop :)
-  
+
   uint8_t r = dmxData[DMX_BASE_0_R];
   uint8_t g = dmxData[DMX_BASE_0_G];
   uint8_t b = dmxData[DMX_BASE_0_B];
-  for(int i = 0; i < LEDS_PER_TENTACLE; ++i)
+  for (int i = 0; i < LEDS_PER_TENTACLE; ++i)
   {
     leds[i].r = max(leds[i].r, r);
     leds[i].g = max(leds[i].g, g);
@@ -108,32 +137,32 @@ void setBaseColor()
   r = dmxData[DMX_BASE_1_R];
   g = dmxData[DMX_BASE_1_G];
   b = dmxData[DMX_BASE_1_B];
-  for(int i = LEDS_PER_TENTACLE; i < 2 * LEDS_PER_TENTACLE; ++i)
+  for (int i = LEDS_PER_TENTACLE; i < 2 * LEDS_PER_TENTACLE; ++i)
   {
     leds[i].r = max(leds[i].r, r);
     leds[i].g = max(leds[i].g, g);
     leds[i].b = max(leds[i].b, b);
-  }  
+  }
 
   r = dmxData[DMX_BASE_2_R];
   g = dmxData[DMX_BASE_2_G];
   b = dmxData[DMX_BASE_2_B];
-  for(int i = 2 * LEDS_PER_TENTACLE; i < 3 * LEDS_PER_TENTACLE; ++i)
+  for (int i = 2 * LEDS_PER_TENTACLE; i < 3 * LEDS_PER_TENTACLE; ++i)
   {
     leds[i].r = max(leds[i].r, r);
     leds[i].g = max(leds[i].g, g);
     leds[i].b = max(leds[i].b, b);
-  }  
+  }
 
   r = dmxData[DMX_BASE_3_R];
   g = dmxData[DMX_BASE_3_G];
   b = dmxData[DMX_BASE_3_B];
-  for(int i = 3 * LEDS_PER_TENTACLE; i < 4 * LEDS_PER_TENTACLE; ++i)
+  for (int i = 3 * LEDS_PER_TENTACLE; i < 4 * LEDS_PER_TENTACLE; ++i)
   {
     leds[i].r = max(leds[i].r, r);
     leds[i].g = max(leds[i].g, g);
     leds[i].b = max(leds[i].b, b);
-  }  
+  }
 }
 
 /** Asks the dmx handler for new data and blocks until all data is received*/
@@ -144,17 +173,17 @@ void triggerDmxDataTransfer()
   digitalWrite(INTERRUPT_PIN, HIGH);
   delayMicroseconds(500);
   digitalWrite(INTERRUPT_PIN, LOW);
-  
+
   //spin lock till all data is received
-  while(numDmxReceived < NUM_DMX_CHANNELS);
+  while (numDmxReceived < NUM_DMX_CHANNELS);
 }
 
 /**Receive dmx data via i2c. Is triggered by interrupt */
 void receiveEvent(int unused)
 {
-  while (Wire.available() > 0 && numDmxReceived < NUM_DMX_CHANNELS) 
-  { 
+  while (Wire.available() > 0 && numDmxReceived < NUM_DMX_CHANNELS)
+  {
     dmxData[numDmxReceived] = Wire.read();
-    ++numDmxReceived;       
-  }   
+    ++numDmxReceived;
+  }
 }
