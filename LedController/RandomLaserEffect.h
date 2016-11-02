@@ -18,7 +18,7 @@ void initRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles)
 void updateRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,
                uint16_t timeSinceLastCall, uint8_t speed, uint8_t color)
 {
-  WAIT(map(speed, 0, 255, 0, 300000), rle.timePassed, timeSinceLastCall);
+  WAIT(map(speed, 255, 0, 0, 300000), rle.timePassed, timeSinceLastCall);
   FastLED.clear();
   
   //FIXME not yet working

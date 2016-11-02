@@ -15,7 +15,7 @@ void initMeteor(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles)
 void updateMeteor(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,
                uint16_t timeSinceLastCall, uint8_t speed, uint8_t color)
 {
-  WAIT(map(speed, 0, 255, 0, 600000), meteor.timePassed, timeSinceLastCall);
+  WAIT(map(speed, 255, 0, 0, 600000), meteor.timePassed, timeSinceLastCall);
 
   FastLED.clear();
 
