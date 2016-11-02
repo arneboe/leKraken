@@ -4,6 +4,7 @@
 #include "MeteorEffect.h"
 #include "SingleTentacleEffect.h"
 #include "SweepEffect.h"
+#include "RandomBlobs.h"
 
 class EffectManager
 {
@@ -15,6 +16,7 @@ private:
     TENTACLE_2_ON_EFFECT,
     TENTACLE_3_ON_EFFECT,
     SWEEP_EFFECT,
+    RANDOM_BLOB_EFFECT,
     METEOR_EFFECT,
     RANDOM_LASER,
     //add effect ids before NUM_EFFECTS
@@ -77,7 +79,9 @@ public:
 
     initMethods[SWEEP_EFFECT] = initSweepEffect;
     updateMethods[SWEEP_EFFECT] = updateSweepEffect;
-    
+
+    initMethods[RANDOM_BLOB_EFFECT] = initRandomBlobEffect;
+    updateMethods[RANDOM_BLOB_EFFECT] = updateRandomBlobEffect;
 
     initMethods[RANDOM_LASER] = initRle;
     updateMethods[RANDOM_LASER] = updateRle;
