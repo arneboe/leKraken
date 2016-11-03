@@ -101,7 +101,7 @@ void strobe()
   if(strobeSpeed > 2)
   {
     const uint16_t strobeTime = map(strobeSpeed, 255, 0, 60, 1300);
-    globalStrobe.setOnTime(strobeTime);
+    globalStrobe.setOffTime(strobeTime);
     globalStrobe.update();
     
     if(globalStrobe.isOff())

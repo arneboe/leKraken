@@ -58,8 +58,8 @@ public:
 
     if(currentEffect != lastEffect)
     {
-      //Serial.print("Effect: ");
-     //Serial.println(currentEffect);
+      Serial.print("Effect: ");
+      Serial.println(currentEffect);
       lastEffect = currentEffect;
       initMethods[currentEffect](leds, numPixelsPerTentacle, numTentacles);
     }

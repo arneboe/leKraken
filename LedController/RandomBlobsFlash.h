@@ -13,13 +13,14 @@ void initRandomBlobFlashEffect(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t
 {
   rdbf.strobe.setOnTime(6);
   rdbf.i = rdbf.i % (numPixelsPerTentacle * numTentacles);
-  rdbf.width = 10;
+  rdbf.width = 14;
 }
 
 void updateRandomBlobFlashEffect(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,
                             uint16_t timeSinceLastCall, uint8_t speed, uint8_t color)
 {
-  rdbf.strobe.setOffTime(map(speed, 255, 0, 6, 600000));
+  rdbf.strobe.setOffTime(map(speed, 255, 0, 6, 1000));
+ // rdbf.strobe.setOffTime(100);
   rdbf.strobe.update();
   if(rdbf.strobe.isOff())
   {
