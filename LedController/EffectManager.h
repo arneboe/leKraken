@@ -7,22 +7,24 @@
 #include "RandomBlobs.h"
 #include "RandomBlobsFlash.h"
 #include "AllOnEffect.h"
+#include "UpDownEffect.h"
 
 class EffectManager
 {
 private:
   enum Effect
   {
-    ALL_ON_EFFECT,
-    TENTACLE_0_ON_EFFECT,
-    TENTACLE_1_ON_EFFECT,
-    TENTACLE_2_ON_EFFECT,
-    TENTACLE_3_ON_EFFECT,
-    SWEEP_EFFECT,
-    RANDOM_BLOB_EFFECT,
-    RANDOM_BLOB_FLASH_EFFECT,
-    METEOR_EFFECT,
-    RANDOM_LASER,
+    ALL_ON_EFFECT, //0
+    TENTACLE_0_ON_EFFECT,//1
+    TENTACLE_1_ON_EFFECT,//2
+    TENTACLE_2_ON_EFFECT,//3
+    TENTACLE_3_ON_EFFECT,//4
+    SWEEP_EFFECT,//5
+    RANDOM_BLOB_EFFECT,//6
+    RANDOM_BLOB_FLASH_EFFECT,//7
+    UP_DOWN_EFFECT,//8
+    METEOR_EFFECT,//9
+    RANDOM_LASER,//10
     //add effect ids before NUM_EFFECTS
     NUM_EFFECTS
   };
@@ -93,6 +95,8 @@ public:
     initMethods[RANDOM_BLOB_FLASH_EFFECT] = initRandomBlobFlashEffect;
     updateMethods[RANDOM_BLOB_FLASH_EFFECT] = updateRandomBlobFlashEffect;
 
+    initMethods[UP_DOWN_EFFECT] = initUde;
+    updateMethods[UP_DOWN_EFFECT] = updateUde;
 
     initMethods[RANDOM_LASER] = initRle;
     updateMethods[RANDOM_LASER] = updateRle;
