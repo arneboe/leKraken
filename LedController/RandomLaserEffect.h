@@ -14,7 +14,7 @@ void initRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles)
   const uint16_t numLeds = numPixelsPerTentacle * numTentacles;
   rle.start = rle.start % numLeds; //clamp to range but do not change if already in range
   rle.timePassed = 999999999;
-  rle.width = 6;
+  rle.width = 7;
 }
 
 void updateRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,
@@ -24,7 +24,7 @@ void updateRle(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,
   FastLED.clear();
 
   const uint8_t numLeds = numPixelsPerTentacle * numTentacles - rle.width;
-  rle.start = (rle.start + 1) % numLeds;
+  rle.start = (rle.start + 2) % numLeds;
   const uint8_t end = rle.start + rle.width;
   
   for(int i = rle.start; i < end; ++i)
