@@ -5,18 +5,22 @@
 #include "SingleTentacleEffect.h"
 #include "SweepEffect.h"
 #include "RandomBlobs.h"
+#include "RandomBlobsFlash.h"
+#include "AllOnEffect.h"
 
 class EffectManager
 {
 private:
   enum Effect
   {
+    ALL_ON_EFFECT,
     TENTACLE_0_ON_EFFECT,
     TENTACLE_1_ON_EFFECT,
     TENTACLE_2_ON_EFFECT,
     TENTACLE_3_ON_EFFECT,
     SWEEP_EFFECT,
     RANDOM_BLOB_EFFECT,
+    RANDOM_BLOB_FLASH_EFFECT,
     METEOR_EFFECT,
     RANDOM_LASER,
     //add effect ids before NUM_EFFECTS
@@ -68,6 +72,9 @@ public:
   /** Initializes the effect pointers */
   void loadEffects()
   {
+    initMethods[ALL_ON_EFFECT] = initAllOn;
+    updateMethods[ALL_ON_EFFECT] = updateAllOn;
+        
     initMethods[TENTACLE_0_ON_EFFECT] = initSte0;
     updateMethods[TENTACLE_0_ON_EFFECT] = updateSte;
     initMethods[TENTACLE_1_ON_EFFECT] = initSte1;
@@ -82,6 +89,10 @@ public:
 
     initMethods[RANDOM_BLOB_EFFECT] = initRandomBlobEffect;
     updateMethods[RANDOM_BLOB_EFFECT] = updateRandomBlobEffect;
+
+    initMethods[RANDOM_BLOB_FLASH_EFFECT] = initRandomBlobFlashEffect;
+    updateMethods[RANDOM_BLOB_FLASH_EFFECT] = updateRandomBlobFlashEffect;
+
 
     initMethods[RANDOM_LASER] = initRle;
     updateMethods[RANDOM_LASER] = updateRle;

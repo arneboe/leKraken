@@ -33,6 +33,7 @@
 #include <Wire.h>
 #include <FastLED.h>
 #include "EffectManager.h"
+#include "StrobeHelper.h"
 
 
 
@@ -40,6 +41,8 @@ CRGB leds[NUM_LEDS];
 uint8_t dmxData[NUM_DMX_CHANNELS];
 volatile uint8_t numDmxReceived = 0; //needs to be volatile because it is modified from interrupt
 EffectManager effectManager(LEDS_PER_TENTACLE, NUM_TENTACLES, leds);
+
+StrobeHelper globalStrobe;
 
 void setup()
 {
@@ -54,6 +57,8 @@ void setup()
   FastLED.addLeds<LED_TYPE, TENTACLE_PIN_2, LED_COLOR_ORDER>(&leds[2 * LEDS_PER_TENTACLE], LEDS_PER_TENTACLE).setCorrection(TypicalLEDStrip);
   FastLED.addLeds<LED_TYPE, TENTACLE_PIN_3, LED_COLOR_ORDER>(&leds[3 * LEDS_PER_TENTACLE], LEDS_PER_TENTACLE).setCorrection(TypicalLEDStrip);
   FastLED.clear();
+
+  globalStrobe.setOnTime(4);
   Serial.begin(9600);   //FIXME remove after debug
 }
 
@@ -92,25 +97,20 @@ void loop()
 /**If strobe is > 2 strobe is enabled */
 void strobe()
 {
-  static bool off = true;
-  static unsigned long offTime = 0;
-  static unsigned long onTime = 0;
   const uint8_t strobeSpeed = dmxData[DMX_STROBE];
   if(strobeSpeed > 2)
   {
-    const unsigned long currentTime = millis();
     const uint16_t strobeTime = map(strobeSpeed, 255, 0, 60, 1300);
-    if (off && currentTime - offTime >= strobeTime)
+    globalStrobe.setOnTime(strobeTime);
+    globalStrobe.update();
+    
+    if(globalStrobe.isOff())
     {
-      off = false;
-      onTime = currentTime;
-      FastLED.setBrightness(dmxData[DMX_BRIGHTNESS]);
-    }
-    else if (!off && currentTime - onTime >= 4)
-    {
-      off = true;
-      offTime = currentTime;
       FastLED.setBrightness(0);
+    }
+    else
+    {
+      FastLED.setBrightness(dmxData[DMX_BRIGHTNESS]);
     }
   }
   else
