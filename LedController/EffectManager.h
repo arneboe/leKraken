@@ -6,15 +6,17 @@
 #include "SweepEffect.h"
 #include "RandomBlobs.h"
 #include "RandomBlobsFlash.h"
-#include "AllOnEffect.h"
+#include "AllOffEffect.h"
 #include "UpDownEffect.h"
+#include "RandomForwardEffect.h"
+#include "RandomFadeIn.h"
 
 class EffectManager
 {
 private:
   enum Effect
   {
-    ALL_ON_EFFECT, //0
+    ALL_OFF_EFFECT, //0
     TENTACLE_0_ON_EFFECT,//1
     TENTACLE_1_ON_EFFECT,//2
     TENTACLE_2_ON_EFFECT,//3
@@ -25,6 +27,8 @@ private:
     UP_DOWN_EFFECT,//8
     METEOR_EFFECT,//9
     RANDOM_LASER,//10
+    RANDOM_FORWARD_EFFECT,//11
+    RANDOM_STARS,//12
     //add effect ids before NUM_EFFECTS
     NUM_EFFECTS
   };
@@ -74,8 +78,8 @@ public:
   /** Initializes the effect pointers */
   void loadEffects()
   {
-    initMethods[ALL_ON_EFFECT] = initAllOn;
-    updateMethods[ALL_ON_EFFECT] = updateAllOn;
+    initMethods[ALL_OFF_EFFECT] = initAllOff;
+    updateMethods[ALL_OFF_EFFECT] = updateAllOff;
         
     initMethods[TENTACLE_0_ON_EFFECT] = initSte0;
     updateMethods[TENTACLE_0_ON_EFFECT] = updateSte;
@@ -102,7 +106,14 @@ public:
     updateMethods[RANDOM_LASER] = updateRle;
 
     initMethods[METEOR_EFFECT] = initMeteor;
-    updateMethods[METEOR_EFFECT] = updateMeteor;   
+    updateMethods[METEOR_EFFECT] = updateMeteor; 
+
+    initMethods[RANDOM_FORWARD_EFFECT] = initRfe;
+    updateMethods[RANDOM_FORWARD_EFFECT] = updateRfe;
+
+    initMethods[RANDOM_STARS] = initRfie;
+    updateMethods[RANDOM_STARS] = updateRfie;
+      
   }
 
   /** Returns the time since the last call to this method in micro seconds */
