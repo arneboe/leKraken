@@ -8,7 +8,7 @@ struct
 
 void initColorMassacre(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles)
 {
-  meteor.timePassed = 999999999;
+  massacre.timePassed = 999999999;
 }
 
 void updateColorMassacre(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,

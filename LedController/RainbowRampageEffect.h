@@ -10,7 +10,7 @@ struct
 void initRainbowRampage(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles)
 {
   rainbow.offset = 0;
-  meteor.timePassed = 999999999;
+  rainbow.timePassed = 999999999;
 }
 
 void updateRainbowRampage(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles,
