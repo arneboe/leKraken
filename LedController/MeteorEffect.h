@@ -20,8 +20,6 @@ void updateMeteor(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles
 
   FastLED.clear();
 
-  // TODO: Consider timeSinceLastCall and speed
-
   const uint8_t newPosition = max(meteor.position * 1.5, 1);
   const uint8_t tailLength = newPosition / 3;
   
@@ -30,7 +28,7 @@ void updateMeteor(CRGB* leds, uint8_t numPixelsPerTentacle, uint8_t numTentacles
   for (int i = newPosition - tailLength; i < newPosition; ++i)
   {
     for (int offset = 0; offset < numTentacles; ++offset) {
-      leds[i + offset * numPixelsPerTentacle].setHSV (color, 255, (i * 255) / newPosition);
+      leds[i + offset * numPixelsPerTentacle].setHSV(color, 255, (i * 255) / newPosition);
     }
   }
 }
