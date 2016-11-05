@@ -10,6 +10,8 @@
 #include "UpDownEffect.h"
 #include "RandomForwardEffect.h"
 #include "RandomFadeIn.h"
+#include "RainbowRampageEffect.h"
+#include "ColorMassacre.h"
 
 class EffectManager
 {
@@ -29,6 +31,9 @@ private:
     RANDOM_LASER,//10
     RANDOM_FORWARD_EFFECT,//11
     RANDOM_STARS,//12
+    RAINBOW_RAMPAGE_EFFECT,//13
+    COLOR_MASSACRE_EFFECT,//14
+    
     //add effect ids before NUM_EFFECTS
     NUM_EFFECTS
   };
@@ -113,7 +118,12 @@ public:
 
     initMethods[RANDOM_STARS] = initRfie;
     updateMethods[RANDOM_STARS] = updateRfie;
-      
+
+    initMethods[RAINBOW_RAMPAGE_EFFECT] = initRainbowRampage;
+    updateMethods[RAINBOW_RAMPAGE_EFFECT] = updateRainbowRampage;
+
+    initMethods[COLOR_MASSACRE_EFFECT] = initColorMassacre;
+    updateMethods[COLOR_MASSACRE_EFFECT] = updateColorMassacre;
   }
 
   /** Returns the time since the last call to this method in micro seconds */
